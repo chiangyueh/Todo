@@ -19,7 +19,15 @@ db.once('open', () => {
   console.log('mongodb connected!')
 })
 
-// const exphbs = require('express-handlebars');
+const exphbs = require('express-handlebars');
 
-// app.engine('handlebars',exphbs({defaultLayout : 'main'}));
-// app.set('view engine','handlebars');
+app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
+app.set('view engine', 'hbs')
+
+app.get('/', (req, res) => {
+    res.render('index')
+  })
+
+app.listen(port,()=>{
+    console.log(`This project is now running on localhost:${port}`)
+})
