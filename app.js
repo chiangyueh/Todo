@@ -10,6 +10,10 @@ const Todo = require('./models/todo')
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config()
 }
+// 載入 method-override
+const methodOverride = require('method-override') 
+// 設定每一筆請求都會透過 methodOverride 進行前置處理
+app.use(methodOverride('_method'))
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })//設定連線到MONGODB
 // 取得資料庫連線狀態
 const db = mongoose.connection
@@ -53,7 +57,7 @@ app.get('/todos/:id', (req, res) => {
       .then((todo) => res.render('edit', { todo }))
       .catch(error => console.log(error))
   })
-  app.post('/todos/:id/edit', (req, res) => {
+  app.put('/todos/:id', (req, res) => {
   const id = req.params.id
   const { name, isDone } = req.body
   return Todo.findById(id)
@@ -65,7 +69,7 @@ app.get('/todos/:id', (req, res) => {
     .then(() => res.redirect(`/todos/${id}`))
     .catch(error => console.log(error))
 })
-  app.post('/todos/:id/delete', (req, res) => {
+  app.delete('/todos/:id', (req, res) => {
     const id = req.params.id
     return Todo.findById(id)
       .then(todo => todo.remove())
