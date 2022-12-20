@@ -13,8 +13,6 @@ app.use(methodOverride('_method'))
 app.use(routes)
 
 
-
-
 app.listen(PORT, () => {
     console.log(`This project is now running on localhost:${PORT}`)
 })
